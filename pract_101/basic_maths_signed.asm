@@ -1,3 +1,4 @@
+; Same but now we have to evaluate everything based ont he signed  usage ,even though metrics we can chaneg or something like whatever 
 ;1. bAns1 = bNum1 + bNum2
 ;2. bAns2 = bNum1 + bNum3
 ;3. bAns3 = bNum3 + bNum4
@@ -18,14 +19,14 @@
 
 section .data 
 
-EXIT_SUCCESS equ 60
-SYS_exit    equ 0
+EXIT_SUCCESS equ 0
+SYS_exit    equ 60
 
 ; byte variable
 bNum1 db 5
-bNum2 db 6
+bNum2 db -6
 bNum3 db 34 
-bNum4 db 12
+bNum4 db -12
 
 
 ; byte answer variable 
@@ -106,41 +107,42 @@ mov byte [bAns8], al
 
 mov al, 0
 mov al, byte [bNum1]
-mul byte [bNum3]
+imul byte [bNum3]
 mov word [wAns11], ax
 
 ;8
 mov al, 0
 mov al, byte [bNum2]
-mul byte [bNum2]
+imul byte [bNum2]
 mov word [wAns12], ax
 
 ;9 
 mov al, 0
 mov al, byte [bNum2]
-mul byte [bNum3]
+imul byte [bNum3]
 mov word [wAns13], ax
 
 ;10
 mov al, 0
 mov al, byte [bNum1]
 mov ah, 0 ; because it is the the helpful to prevent any garbage (ah:al)/src (can be memory o register of 8 bit size)
-div byte[bNum2]
+idiv byte[bNum2]
 mov byte[bAns16], al
 
 
 ;11
 mov ax, 0 ; because ax is currently already corrupted with previous instructions 
 mov al, byte [bNum3]
-div byte[bNum4]
+idiv byte[bNum4]
 mov byte[bAns17], al
 
 ;12
 mov ax, 0 ; just for safety , if any word value doesnt cover the ax
 mov ax, word [wNum1]
 mov dx, 0
-movzx bx, byte [bNum4]
-div bx
+movsx bx, byte [bNum4]
+idiv bx
+after_div_label:
 mov byte [bAns18] , al
 mov byte [bRem18], dl
 ; narrow down the result to the smaller ones

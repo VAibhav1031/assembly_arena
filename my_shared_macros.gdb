@@ -1,3 +1,5 @@
+# /home/necromancer/assembly_arena/my_share_macros.gdb
+
 define checkdiv
     set $ax_val = $rax & 0xFFFF
     set $ah_val = ($ax_val >> 8) & 0xFF    
@@ -13,15 +15,4 @@ define checkdiv
     printf "===================================\n\n"
 end
 
-# 2. Set a breakpoint exactly at the memory target or label *after* the division
-# Replace 'after_div_label' with your actual code label or exact line number
-break something_new.asm:137
 
-# 3. Tell GDB to run your macro automatically ONLY when this breakpoint triggers
-commands 1
-    silent    
-    checkdiv 
-    continue 
-end
-
-run 
