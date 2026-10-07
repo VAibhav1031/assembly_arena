@@ -1,5 +1,3 @@
-
-
 ; Same but now we have to evaluate everything based ont he signed  usage ,even though metrics we can chaneg or something like whatever 
 ;1. wAns1 = wNum1 + wNum2
 ;2. wAns2 = wNum1 + wNum3
