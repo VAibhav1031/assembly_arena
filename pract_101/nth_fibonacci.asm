@@ -4,10 +4,10 @@ SUCCESS equ 0
 SYS_exit equ 60
 
 
-n dw 6 ; nth fibo 
+n dw 6+1 ; nth+1  fibonacci currently for the nth  fibonacci result because my loop is like that  
 
-prev_n_1 dd 0;  for storing fib(n-1)
-prev_n_2 dd 1; for storing fib(n-2)
+prev_n_2 dd 0; for storing fib(n-2) | n = 0
+prev_n_1 dd 1;  for storing fib(n-1) | n = 1
 
 curr_fib dd 1; 
 
@@ -36,12 +36,20 @@ mov ecx, 2
 fibLoop:
 mov edx, dword [prev_n_1]
 add edx, dword [prev_n_2]
-mov dword [curr_fib], edx 
-mov dword [prev_n_2], dword [prev_n_1]
+
+; just for the nth fib answer
+mov dword [curr_fib], edx
+
+;move prev_n_1 value to the  prev_n_2 (we cant use the memory to memory mov command)
+mov ebx , dword [prev_n_1]
+mov dword [prev_n_2], ebx
+; now result will be moved to the prev_n_1  
 mov dword [prev_n_1], edx
+
 inc ecx
 cmp cx, word [n]
 jne fibLoop
+
 jmp last ;after the loop i expect it to go last label
 
 early_check_one:
